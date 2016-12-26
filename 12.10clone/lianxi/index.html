@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>滚动条滚到顶是  nav位置不动</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            list-style: none;
+        }
+        html{
+            width: 100%;
+            height: 100%;
+            font-size: 100px;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            font-size: 0.16rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header,footer{
+            width: 100%;
+            height: 0.44rem;
+            background: #ccc;
+        }
+        section{
+            flex:1;
+            width: 100%;
+            height: 100%;
+            background: #008000;
+            overflow: hidden;
+        }
+
+        .banner{
+            width: 100%;
+            height: 1.2rem;
+            background: orange;
+        }
+        .nav,.fixed{
+            width: 100%;
+            height: 0.3rem;
+            background: orangered;
+        }
+        .cont{
+            width: 100%;
+            height: 100%;
+        }
+
+        .cont ul li{
+            padding:0.2rem;
+            border-bottom: 1px #ccc solid;
+            box-sizing: border-box;
+        }
+
+        .fixed{
+            position: fixed;
+            top:0.44rem;
+            left:0;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>头部</header>
+
+    <section>
+        <div class="isc">
+            <div class="banner"></div>
+            <div class="nav"></div>
+            <div class="cont">
+                <ul>
+                    <li>000000001</li>
+                    <li>000000002</li>
+                    <li>000000003</li>
+                    <li>000000004</li>
+                    <li>000000005</li>
+                    <li>000000006</li>
+                    <li>000000007</li>
+                    <li>000000008</li>
+                    <li>000000004</li>
+                    <li>000000005</li>
+                    <li>000000006</li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>底部</footer>
+
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+    <script type="text/javascript" src="js/iscroll5.js"></script>
+    <script type="text/javascript" src="js/iscroll-probe.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener("touchmove",function(e){
+            e.preventDefault();
+        })
+//        new IScroll("section");
+        window.onload=function(){
+            var myscroll = new IScroll('section',{probeType:3});
+            //console.log(this.y)
+            myscroll.on('scroll',function(){
+                console.log(this.y);
+                var num=$(".banner").height();
+                if (Math.abs(this.y) >= num) {
+                    if ($('section').siblings('.nav').length>0) {
+                        "";
+                    }else{
+                        $('section').after($('.nav').clone(true).addClass('fixed'))
+                    }
+                }else{
+                    $('.fixed').remove();
+                }
+
+            })
+            myscroll.on('scrollEnd',function(){
+                console.log(this.y);
+            })
+        }
+
+    </script>
+</body>
+</html>
